@@ -1,9 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
-  Button,
-  TextField,
-  useMediaQuery,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -15,6 +12,17 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
+
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { Password } from "primereact/password";
+import { Divider } from "primereact/divider";
+import { Card } from 'primereact/card';
+
+import  logo  from '../../assets/codebridge.png';
+
+import "./form.css";
+
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -49,7 +57,6 @@ const Form = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
@@ -99,6 +106,19 @@ const Form = () => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
   };
+  const passwordHeader = <h6>Pick a password</h6>;
+  const passwordFooter = (
+    <React.Fragment>
+      <Divider />
+      <p className="mt-2">Suggestions</p>
+      <ul className="pl-2 ml-2 mt-0" style={{ lineHeight: "1.5" }}>
+        <li>At least one lowercase</li>
+        <li>At least one uppercase</li>
+        <li>At least one numeric</li>
+        <li>Minimum 8 characters</li>
+      </ul>
+    </React.Fragment>
+  );
 
   return (
     <Formik
@@ -108,58 +128,71 @@ const Form = () => {
     >
       {({
         values,
-        errors,
-        touched,
         handleBlur,
         handleChange,
         handleSubmit,
         setFieldValue,
         resetForm,
       }) => (
-        <form onSubmit={handleSubmit}>
-          <Box
-            display="grid"
-            gap="30px"
-            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-            sx={{
-              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-            }}
-          >
-            {isRegister && (
-              <>
-                <TextField
-                  label="First Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.firstName}
-                  name="firstName"
-                  error={
-                    Boolean(touched.firstName) && Boolean(errors.firstName)
-                  }
-                  helperText={touched.firstName && errors.firstName}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  label="Last Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.lastName}
-                  name="lastName"
-                  error={Boolean(touched.lastName) && Boolean(errors.lastName)}
-                  helperText={touched.lastName && errors.lastName}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  label="Company"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.company}
-                  name="company"
-                  error={Boolean(touched.company) && Boolean(errors.company)}
-                  helperText={touched.company && errors.company}
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <Box
+        <div className="form">
+          <div className="flex justify-content-center">
+          <Card>
+            <div className="card">
+              <form onSubmit={handleSubmit} className="p-fluid">
+                {isRegister && (
+                  <>
+                  <img src={logo} alt="codebridge logo"/>
+                  <h3 className="text-center">Register</h3>
+                    <div className="field">
+                      <span className="p-float-label">
+                        <InputText
+                          id="firstName"
+                          name="firstName"
+                          value={values.firstName}
+                          onChange={handleChange}
+                          autoFocus
+                        />
+                        <label
+                          htmlFor="firstName"
+                        >
+                          First Name*
+                        </label>
+                      </span>
+                    </div>
+                    <div className="field">
+                      <span className="p-float-label">
+                        <InputText
+                          id="lastName"
+                          name="lastName"
+                          value={values.lastName}
+                          onChange={handleChange}
+                          autoFocus
+                        />
+                        <label
+                          htmlFor="lastName"
+                        >
+                          Last Name*
+                        </label>
+                      </span>
+                    </div>
+                    <div className="field">
+                      <span className="p-float-label">
+                        <InputText
+                          id="company"
+                          name="company"
+                          value={values.company}
+                          onChange={handleChange}
+                          autoFocus
+                        />
+                        <label
+                          htmlFor="company"
+                        >
+                          Company*
+                        </label>
+                      </span>
+                    </div>
+                    <div className="field">
+                    <Box
                   gridColumn="span 4"
                   border={`1px solid ${palette.neutral.medium}`}
                   borderRadius="5px"
@@ -192,67 +225,112 @@ const Form = () => {
                     )}
                   </Dropzone>
                 </Box>
-              </>
-            )}
-
-            <TextField
-              label="Email"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.email}
-              name="email"
-              error={Boolean(touched.email) && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
-              sx={{ gridColumn: "span 4" }}
-            />
-            <TextField
-              label="Password"
-              type="password"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.password}
-              name="password"
-              error={Boolean(touched.password) && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
-              sx={{ gridColumn: "span 4" }}
-            />
-          </Box>
-
-          {/* BUTTONS */}
-          <Box>
-            <Button
-              fullWidth
-              type="submit"
-              sx={{
-                m: "2rem 0",
-                p: "1rem",
-                backgroundColor: palette.primary.main,
-                color: palette.background.alt,
-                "&:hover": { color: palette.primary.main },
-              }}
-            >
-              {isLogin ? "LOGIN" : "REGISTER"}
-            </Button>
-            <Typography
-              onClick={() => {
-                setPageType(isLogin ? "register" : "login");
-                resetForm();
-              }}
-              sx={{
-                textDecoration: "underline",
-                color: palette.primary.main,
-                "&:hover": {
-                  cursor: "pointer",
-                  color: palette.primary.light,
-                },
-              }}
-            >
-              {isLogin
-                ? "Don't have an account? Sign Up here."
-                : "Already have an account? Login here."}
-            </Typography>
-          </Box>
-        </form>
+                    </div>
+                    <div className="field">
+                      <span className="p-float-label p-input-icon-right">
+                        <i className="pi pi-envelope" />
+                        <InputText
+                          id="email"
+                          name="email"
+                          value={values.email}
+                          onChange={handleChange}
+                        />
+                        <label
+                          htmlFor="email"
+                        >
+                          Email*
+                        </label>
+                      </span>
+                    </div>
+                    <div className="field">
+                      <span className="p-float-label">
+                        <Password
+                          id="password"
+                          name="password"
+                          value={values.password}
+                          onChange={handleChange}
+                          toggleMask
+                          header={passwordHeader}
+                          footer={passwordFooter}
+                        />
+                        <label
+                          htmlFor="password"
+                        >
+                          Password*
+                        </label>
+                      </span>
+                    </div>
+                  </>
+                )}
+                {isLogin && (
+                  <>
+                  <img src={logo} alt="codebridge logo"/>
+                  <h3>Log In to Customer Relationship Management</h3>
+                  <div className="field">
+                      <span className="p-float-label p-input-icon-right">
+                        <i className="pi pi-envelope" />
+                        <InputText
+                          id="email"
+                          name="email"
+                          value={values.email}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                        <label
+                          htmlFor="email"
+                        >
+                          Email*
+                        </label>
+                      </span>
+                    </div>
+                    <div className="field">
+                      <span className="p-float-label">
+                        <Password
+                          id="password"
+                          name="password"
+                          value={values.password}
+                          onChange={handleChange}
+                          toggleMask
+                          feedback={false}
+                        />
+                        <label
+                          htmlFor="password"
+                        >
+                          Password*
+                        </label>
+                      </span>
+                    </div>
+                </>
+                )}
+                {/* BUTTONS */}
+                <div className = "buttonSubmit">
+                <Button type="submit" className="mt-2">
+                    {isLogin ? "LOGIN" : "REGISTER"}
+                  </Button>
+                  </div>
+                  <Typography
+                    onClick={() => {
+                      setPageType(isLogin ? "register" : "login");
+                      resetForm();
+                    }}
+                    sx={{
+                      textDecoration: "underline",
+                      color: palette.primary.main,
+                      "&:hover": {
+                        cursor: "pointer",
+                        color: palette.primary.light,
+                      },
+                    }}
+                  >
+                    {isLogin
+                      ? "Don't have an account? Sign Up here."
+                      : "Already have an account? Login here."}
+                  </Typography>
+              </form>
+            </div>
+        </Card>
+          </div>
+        </div>
       )}
     </Formik>
   );

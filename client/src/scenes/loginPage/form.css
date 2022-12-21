@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+.card .field .buttonSubmit{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.card {
+    width: 300px;
+}
+
+.buttonSubmit{
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
