@@ -4,7 +4,7 @@ import { useGetDashboardQuery } from "state/api";
 import "./dashboard.css";
 
 const Dashboard = () => {
-  const { data, isLoading } = useGetDashboardQuery();
+  const { data } = useGetDashboardQuery();
   return (
     <div className="box_dashboard">
       <div className="card_container">
