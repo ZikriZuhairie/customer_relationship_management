@@ -17,7 +17,6 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
 import { Divider } from "primereact/divider";
-import { Card } from 'primereact/card';
 
 import  logo  from '../../assets/codebridge.png';
 
@@ -136,8 +135,7 @@ const Form = () => {
       }) => (
         <div className="form">
           <div className="flex justify-content-center">
-          <Card>
-            <div className="card">
+            <div className="login_container">
               <form onSubmit={handleSubmit} className="p-fluid">
                 {isRegister && (
                   <>
@@ -328,7 +326,6 @@ const Form = () => {
                   </Typography>
               </form>
             </div>
-        </Card>
           </div>
         </div>
       )}

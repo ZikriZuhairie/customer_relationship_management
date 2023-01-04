@@ -4,7 +4,10 @@ import './index.css';
 import App from './App';
 import authReducer from './state';
 import { configureStore } from '@reduxjs/toolkit';
+import globalReducer from "state";
 import { Provider } from 'react-redux';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { api } from 'state/api';
 import {
   persistStore,
   persistReducer,
@@ -21,15 +24,17 @@ import { PersistGate } from 'redux-persist/integration/react';
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+  reducer: {persistedReducer,
+  global: globalReducer,
+    [api.reducerPath]: api.reducer,},
+  middleware: (getDefault) =>
+  getDefault({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-
-})
+    }).concat(api.middleware)
+});
+setupListeners(store.dispatch);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

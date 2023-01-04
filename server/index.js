@@ -11,9 +11,18 @@ import { fileURLToPath } from 'url';
 
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
+import clientRoutes from "./routes/client.js";
+import generalRoutes from "./routes/general.js";
+import salesRoutes from "./routes/sales.js";
 
 import { register } from './controllers/auth.js';
 import { verifyToken } from './middleware/auth.js';
+
+import Client from './models/Client.js';
+import OverallSales from './models/OverallSales.js';
+import {dataClients, dataOverallStat} from "./data/index.js";
+
+
 // Configuration
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,6 +55,9 @@ app.post("/auth/register", upload.single("picture"), register);
 // Routes
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use("/client", clientRoutes);
+app.use("/sales", salesRoutes);
+app.use("/general", generalRoutes);
 
 // Mongoose setup
 const PORT = process.env.PORT || 6001;
@@ -54,5 +66,7 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true,
 }).then(() => {
     app.listen(PORT, () => console.log(`Server Port ${PORT}`));
-    
+    // insert mock data only once
+    // Client.insertMany(dataClients);
+    // OverallSales.insertMany(dataOverallStat)
 }).catch((error) => console.log(`${error} did not connect`));

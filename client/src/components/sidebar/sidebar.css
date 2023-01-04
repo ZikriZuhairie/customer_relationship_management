@@ -1,0 +1,19 @@
+.p-sidebar{
+    box-shadow: none;
+    margin-right: 100px;
+    position: absolute;
+    transform: none !important;
+    background: #E7949E;
+}
+
+
+.p-menu{
+    width: 13em;
+    padding-top: 10px;
+    margin-left: -12px;
+    border: none;
+    background: #E7949E;
+}
+.p-submenu-header{
+    background: #E7949E !important;
+}

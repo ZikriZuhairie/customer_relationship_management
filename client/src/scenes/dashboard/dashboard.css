@@ -1,0 +1,26 @@
+.box_dashboard{
+    margin-left: 15vw;
+    width: 80vw;
+    height: 85vh;
+    background-color: transparent;
+}
+
+.card_container{
+    display: flex;
+    margin-top: 6vh;
+    margin-left: 11vw;
+}
+.p-card{
+    width: 14vw;
+    height: 16vh;
+    margin-right: 12px;
+}
+
+.chart_container{
+    margin-left: 11vw !important;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    width: 58vw;
+    height: 50vh;
+}

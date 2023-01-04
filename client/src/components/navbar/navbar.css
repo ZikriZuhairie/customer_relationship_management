@@ -1,0 +1,9 @@
+.p-menubar{
+    border: none;
+    background-color: white;
+}
+
+.user_menubar{
+    display: flex;
+    align-items: center;
+}

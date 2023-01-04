@@ -5,13 +5,17 @@
   text-align: center;
   min-height: 100vh;
 }
-.card .field .buttonSubmit{
+.login_container .field .buttonSubmit{
     margin-left: 50px;
     margin-right: 50px;
 }
 
-.card {
-    width: 300px;
+.login_container {
+    width: 330px;
+    height: 430px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 .buttonSubmit{
